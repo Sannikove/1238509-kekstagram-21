@@ -1,26 +1,52 @@
 'use strict';
 
 (function () {
-  const similarListElement = document.querySelector(`.pictures`);
-  const similarphotoTemplate = document.querySelector(`#picture`).content.querySelector(`.picture`);
+  let photos = [];
+  const filter = document.querySelector(`.img-filters`);
+  const filterButtons = filter.querySelectorAll(`.img-filters__button`);
+  // const filterDefaultBtn = filter.querySelector(`#filter-default`);
+  const filterRandomBtn = filter.querySelector(`#filter-random`);
+  // const filterDiscussedBtn = filter.querySelector(`#filter-discussed`);
 
-  const renderPhoto = function (photo) {
-    let photoElement = similarphotoTemplate.cloneNode(true);
 
-    photoElement.querySelector(`.picture__img`).src = photo.url;
-    photoElement.querySelector(`.picture__likes`).textContent = photo.likes;
-    photoElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
+  for (let i = 0; i < filterButtons.length; i++) {
+    filterButtons[i].addEventListener(`click`, function () {
+      filterButtons[i].classList.add(`img-filters__button--active`);
+      updatePhotos();
+      for (let j = 0; j < filterButtons.length; j++) {
+        if (j !== i) {
+          filterButtons[j].classList.remove(`img-filters__button--active`);
 
-    return photoElement;
+        }
+      }
+    });
+  }
+
+  const updatePhotos = function () {
+    let newPhotos = [];
+    if (filterRandomBtn.classList.contains(`img-filters__button--active`)) {
+      let permutation = window.main.getRandomPermutation(photos.length);
+      let temp = photos.slice();
+      for (let i = 0; i < photos.length; i++) {
+        newPhotos[i] = temp[permutation[i]];
+      }
+      newPhotos.length = 10;
+
+      return window.render(newPhotos);
+
+
+    } else {
+      newPhotos = photos;
+      return window.render(newPhotos);
+    }
   };
 
-  const successHandler = function (photos) {
-    const fragment = document.createDocumentFragment();
 
-    for (let i = 0; i < photos.length; i++) {
-      fragment.appendChild(renderPhoto(photos[i]));
-    }
-    similarListElement.appendChild(fragment);
+  filter.classList.remove(`img-filters--inactive`);
+
+  const successHandler = function (data) {
+    photos = data;
+    updatePhotos();
   };
 
   const errorHandler = function (errorMessage) {
@@ -36,5 +62,4 @@
   };
 
   window.load(successHandler, errorHandler);
-
 })();
