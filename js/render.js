@@ -3,7 +3,6 @@
 (function () {
   const similarListElement = document.querySelector(`.pictures`);
   const similarPhotoTemplate = document.querySelector(`#picture`).content.querySelector(`.picture`);
-  const MAX_PHOTO_COUNT = 25;
 
   const renderPhoto = function (photo) {
     let photoElement = similarPhotoTemplate.cloneNode(true);
@@ -15,27 +14,17 @@
     return photoElement;
   };
 
-  // window.render = function (photos) {
-  //   const takeNumber = photos.length > MAX_PHOTO_COUNT
-  //     ? MAX_PHOTO_COUNT
-  //     : photos.length;
+  window.render = function (arr, arrLength) {
 
-  //   const fragment = document.createDocumentFragment();
+    let links = similarListElement.querySelectorAll(`.picture`);
+    if (links.length > 0) {
+      for (let i = 0; i < links.length; i++) {
+        similarListElement.removeChild(links[i]);
+      }
 
-  //   for (let i = 0; i < takeNumber; i++) {
-  //     fragment.appendChild(renderPhoto(photos[i]));
-  //   }
-
-  //   similarListElement.appendChild(fragment);
-  // };
-
-  window.render = function (photos) {
-    let takeNumber = photos.length > MAX_PHOTO_COUNT
-      ? MAX_PHOTO_COUNT
-      : photos.length;
-    //  similarListElement.innerHTML = '';
-    for (let i = 0; i < takeNumber; i++) {
-      similarListElement.appendChild(renderPhoto(photos[i]));
+    }
+    for (let i = 0; i < arrLength; i++) {
+      similarListElement.appendChild(renderPhoto(arr[i]));
     }
   };
 })();
