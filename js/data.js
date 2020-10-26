@@ -49,6 +49,7 @@
   const successHandler = function (data) {
     photos = data;
     updatePhotos(filterDefaultBtn);
+    window.showPreview(photos[0]);
   };
 
   const errorHandler = function (errorMessage) {
@@ -65,4 +66,5 @@
 
   window.load(successHandler, errorHandler);
   filter.classList.remove(`img-filters--inactive`);
+
 })();
