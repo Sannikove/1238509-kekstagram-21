@@ -6,16 +6,15 @@
   const imgUploadOverlay = document.querySelector(`.img-upload__overlay`);
   const body = document.querySelector(`body`);
   const hashtagInput = document.querySelector(`.text__hashtags`);
+  const commentInput = document.querySelector(`.text__description`);
 
   window.dialog = {
-    hashtagInput
+    hashtagInput,
+    body
   };
 
   const onPopupEscPress = function (evt) {
-    if (evt.key === `Escape`) {
-      evt.preventDefault();
-      closePopup();
-    }
+    window.main.isEscEvent(evt, closePopup);
   };
 
   const openPopup = function () {
@@ -42,6 +41,10 @@
   });
 
   hashtagInput.addEventListener(`keydown`, function () {
+    document.removeEventListener(`keydown`, onPopupEscPress);
+  });
+
+  commentInput.addEventListener(`keydown`, function () {
     document.removeEventListener(`keydown`, onPopupEscPress);
   });
 

@@ -46,10 +46,24 @@
     return window.render(defaultPhotos, defaultPhotos.length);
   };
 
+  // const showPreview = function() {
+  //   const pictures = document.querySelector(`.picture`);
+  //   console.log(pictures);
+  //   window.preview(pictures);
+  //   // for (let i = 0; i < pictures.length; i++) {
+  //   //   pictures[i].addEventListener(`click`, function () {
+  //   //     document.querySelector(`.big-picture`).classList.remove(`hidden`);
+  //   //     document.querySelector(`body`).classList.add(`modal-open`);
+  //   //     window.preview(pictures[i]);
+  //   //     console.log(pictures[i]);
+  //   //   })
+  //   // }
+  // }
+
   const successHandler = function (data) {
     photos = data;
     updatePhotos(filterDefaultBtn);
-    window.showPreview(photos[0]);
+    // showPreview();
   };
 
   const errorHandler = function (errorMessage) {

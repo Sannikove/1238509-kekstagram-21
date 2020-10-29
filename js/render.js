@@ -4,6 +4,7 @@
   const similarListElement = document.querySelector(`.pictures`);
   const similarPhotoTemplate = document.querySelector(`#picture`).content.querySelector(`.picture`);
 
+
   const renderPhoto = function (photo) {
     let photoElement = similarPhotoTemplate.cloneNode(true);
 
@@ -24,7 +25,12 @@
 
     }
     for (let i = 0; i < arrLength; i++) {
-      similarListElement.appendChild(renderPhoto(arr[i]));
+      let photo = renderPhoto(arr[i]);
+      similarListElement.appendChild(photo);
+
+      photo.addEventListener(`click`, function () {
+        window.preview(arr[i]);
+      });
     }
   };
 })();
