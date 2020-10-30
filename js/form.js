@@ -13,6 +13,9 @@
   const scaleControlDefault = 100 + `%`;
   const scaleControlMaxValue = 100;
   const scaleControlMinValue = 25;
+  const effectLevelDepth = document.querySelector(`.effect-level__depth`);
+  const MIN_PIN_VALUE = 0;
+  const MAX_PIN_VALUE = 453;
 
   levelBar.classList.add(`hidden`);
 
@@ -41,6 +44,9 @@
   const filterChangeHandler = function (evt) {
     if (evt.target && evt.target.matches(`input[type="radio"]`)) {
       levelBar.classList.remove(`hidden`);
+      sliderInput.setAttribute(`value`, sliderLenght);
+      pinSlider.style.left = MAX_PIN_VALUE + `px`;
+      effectLevelDepth.style.width = MAX_PIN_VALUE + `px`;
       preview.className = ``;
       let filterClass = `effects__preview--` + evt.target.value;
       preview.classList.add(filterClass);
@@ -49,8 +55,6 @@
   };
 
   formUpload.addEventListener(`change`, filterChangeHandler);
-  pinSlider.addEventListener(`mouseup`, getLevelEffect);
-
   scaleControlValue.value = scaleControlDefault;
 
   scaleControlSmaller.addEventListener(`click`, function () {
@@ -59,7 +63,6 @@
     } else {
       scaleControlValue.value = scaleControlMinValue + `%`;
     }
-
     preview.style.transform = `scale(` + parseInt(scaleControlValue.value, 10) / 100 + `)`;
   });
 
@@ -69,10 +72,8 @@
     } else {
       scaleControlValue.value = parseInt(scaleControlValue.value, 10) + scaleControlMinValue + `%`;
     }
-
     preview.style.transform = `scale(` + parseInt(scaleControlValue.value, 10) / 100 + `)`;
   });
-
 
   window.dialog.hashtagInput.addEventListener(`change`, function () {
     let hashtagArr = window.dialog.hashtagInput.value.split(` `);
@@ -103,4 +104,15 @@
       window.dialog.hashtagInput.setCustomValidity(`Нельзя указать больше пяти хэш-тегов`);
     }
   });
+
+  window.form = {
+    sliderLenght,
+    sliderInput,
+    pinSlider,
+    effectLevelDepth,
+    MIN_PIN_VALUE,
+    MAX_PIN_VALUE,
+    getLevelEffect
+  };
+
 })();
