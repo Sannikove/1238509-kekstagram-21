@@ -14,7 +14,9 @@
   };
 
   const onPopupEscPress = function (evt) {
-    window.main.isEscEvent(evt, closePopup);
+    if (document.activeElement !== commentInput && document.activeElement !== hashtagInput) {
+      window.main.isEscEvent(evt, closePopup);
+    }
   };
 
   const openPopup = function () {
@@ -39,13 +41,4 @@
   closeUpload.addEventListener(`click`, function () {
     closePopup();
   });
-
-  hashtagInput.addEventListener(`keydown`, function () {
-    document.removeEventListener(`keydown`, onPopupEscPress);
-  });
-
-  commentInput.addEventListener(`keydown`, function () {
-    document.removeEventListener(`keydown`, onPopupEscPress);
-  });
-
 })();
