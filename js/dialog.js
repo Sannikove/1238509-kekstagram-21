@@ -6,15 +6,16 @@
   const imgUploadOverlay = document.querySelector(`.img-upload__overlay`);
   const body = document.querySelector(`body`);
   const hashtagInput = document.querySelector(`.text__hashtags`);
+  const commentInput = document.querySelector(`.text__description`);
 
   window.dialog = {
-    hashtagInput
+    hashtagInput,
+    body
   };
 
   const onPopupEscPress = function (evt) {
-    if (evt.key === `Escape`) {
-      evt.preventDefault();
-      closePopup();
+    if (document.activeElement !== commentInput && document.activeElement !== hashtagInput) {
+      window.main.isEscEvent(evt, closePopup);
     }
   };
 
@@ -40,9 +41,4 @@
   closeUpload.addEventListener(`click`, function () {
     closePopup();
   });
-
-  hashtagInput.addEventListener(`keydown`, function () {
-    document.removeEventListener(`keydown`, onPopupEscPress);
-  });
-
 })();

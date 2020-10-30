@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  const ESC_KEYCODE = 27;
+  const ENTER_KEYCODE = 13;
+
   const getRandomArbitrary = function (min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   };
@@ -20,9 +23,23 @@
     return arr;
   };
 
+  const isEscEvent = function (evt, action) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      action();
+    }
+  };
+
+  const isEnterEvent = function (evt, action) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      action();
+    }
+  };
+
   window.main = {
     getRandomArbitrary,
     getRandomArrayElement,
-    getRandomPermutation
+    getRandomPermutation,
+    isEscEvent,
+    isEnterEvent
   };
 })();
