@@ -1,15 +1,15 @@
 'use strict';
 (function () {
+  const POST_URL = `https://21.javascript.pages.academy/kekstagram`;
+  const GET_URL = `https://21.javascript.pages.academy/kekstagram/data`;
   const StatusCode = {
     OK: 200
   };
   const TIMEOUT_IN_MS = 10000;
 
-  window.load = function (onLoad, onError) {
-    let URL = `https://21.javascript.pages.academy/kekstagram/data`;
+  const getXhr = function (method, URL, data, onLoad, onError) {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
-
 
     xhr.addEventListener(`load`, function () {
       if (xhr.status === StatusCode.OK) {
@@ -27,8 +27,21 @@
 
     xhr.timeout = TIMEOUT_IN_MS;
 
+    xhr.open(method, URL);
+    xhr.send(data);
+  };
 
-    xhr.open(`GET`, URL);
-    xhr.send();
+  const send = function (data, onLoad, onError) {
+    getXhr(`POST`, POST_URL, data, onLoad, onError);
+  };
+
+  const load = function (onLoad, onError) {
+    getXhr(`GET`, GET_URL, null, onLoad, onError);
+  };
+
+  window.backend = {
+    send,
+    load
   };
 })();
+

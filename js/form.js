@@ -1,78 +1,88 @@
 'use strict';
 
 (function () {
-  const levelBar = document.querySelector(`.img-upload__effect-level`);
-  const preview = document.querySelector(`.img-upload__preview`).querySelector(`img`);
   const formUpload = document.querySelector(`.img-upload__form`);
   const pinSlider = document.querySelector(`.effect-level__pin`);
   const sliderInput = document.querySelector(`.effect-level__value`);
   const sliderLenght = 100;
   const scaleControlSmaller = document.querySelector(`.scale__control--smaller`);
   const scaleControlBigger = document.querySelector(`.scale__control--bigger`);
-  const scaleControlValue = document.querySelector(`.scale__control--value`);
-  const scaleControlDefault = 100 + `%`;
   const scaleControlMaxValue = 100;
   const scaleControlMinValue = 25;
   const effectLevelDepth = document.querySelector(`.effect-level__depth`);
   const MIN_PIN_VALUE = 0;
   const MAX_PIN_VALUE = 453;
+  const successTemplate = document.querySelector(`#success`).content.querySelector(`section`);
+  const errorTemplate = document.querySelector(`#error`).content.querySelector(`section`);
 
-  levelBar.classList.add(`hidden`);
+  window.dialog.levelBar.classList.add(`hidden`);
 
   const getLevelEffect = function () {
-    if (preview.classList.contains(`effects__preview--chrome`)) {
-      preview.style.filter = `grayscale(` + sliderInput.value / sliderLenght + `)`;
+    if (window.dialog.preview.classList.contains(`effects__preview--chrome`)) {
+      window.dialog.preview.style.filter = `grayscale(` + sliderInput.value / sliderLenght + `)`;
     }
-    if (preview.classList.contains(`effects__preview--sepia`)) {
-      preview.style.filter = `sepia(` + sliderInput.value / sliderLenght + `)`;
+    if (window.dialog.preview.classList.contains(`effects__preview--sepia`)) {
+      window.dialog.preview.style.filter = `sepia(` + sliderInput.value / sliderLenght + `)`;
     }
-    if (preview.classList.contains(`effects__preview--marvin`)) {
-      preview.style.filter = `invert(` + sliderInput.value + `%)`;
+    if (window.dialog.preview.classList.contains(`effects__preview--marvin`)) {
+      window.dialog.preview.style.filter = `invert(` + sliderInput.value + `%)`;
     }
-    if (preview.classList.contains(`effects__preview--phobos`)) {
-      preview.style.filter = `blur(` + 3 * sliderInput.value / sliderLenght + `px)`;
+    if (window.dialog.preview.classList.contains(`effects__preview--phobos`)) {
+      window.dialog.preview.style.filter = `blur(` + 3 * sliderInput.value / sliderLenght + `px)`;
     }
-    if (preview.classList.contains(`effects__preview--heat`)) {
-      preview.style.filter = `brightness(` + (2 * sliderInput.value / sliderLenght + 1) + `)`;
+    if (window.dialog.preview.classList.contains(`effects__preview--heat`)) {
+      window.dialog.preview.style.filter = `brightness(` + (2 * sliderInput.value / sliderLenght + 1) + `)`;
     }
-    if (preview.classList.contains(`effects__preview--none`)) {
-      preview.style = ``;
-      levelBar.classList.add(`hidden`);
+    if (window.dialog.preview.classList.contains(`effects__preview--none`)) {
+      window.dialog.preview.style = ``;
+      window.dialog.levelBar.classList.add(`hidden`);
     }
   };
 
   const filterChangeHandler = function (evt) {
     if (evt.target && evt.target.matches(`input[type="radio"]`)) {
-      levelBar.classList.remove(`hidden`);
+      window.dialog.levelBar.classList.remove(`hidden`);
       sliderInput.setAttribute(`value`, sliderLenght);
       pinSlider.style.left = MAX_PIN_VALUE + `px`;
       effectLevelDepth.style.width = MAX_PIN_VALUE + `px`;
-      preview.className = ``;
+      window.dialog.preview.className = ``;
       let filterClass = `effects__preview--` + evt.target.value;
-      preview.classList.add(filterClass);
+      window.dialog.preview.classList.add(filterClass);
       getLevelEffect();
     }
   };
 
   formUpload.addEventListener(`change`, filterChangeHandler);
-  scaleControlValue.value = scaleControlDefault;
+
+  formUpload.addEventListener(`submit`, function (evt) {
+    window.backend.send(new FormData(formUpload), function () {
+      window.dialog.closePopup();
+      window.message.createMessage(successTemplate);
+    }, function () {
+      window.dialog.closePopup();
+      window.message.createMessage(errorTemplate);
+    });
+    evt.preventDefault();
+  });
+
+  window.dialog.scaleControlValue.value = window.dialog.scaleControlDefault;
 
   scaleControlSmaller.addEventListener(`click`, function () {
-    if (parseInt(scaleControlValue.value, 10) > scaleControlMinValue) {
-      scaleControlValue.value = parseInt(scaleControlValue.value, 10) - scaleControlMinValue + `%`;
+    if (parseInt(window.dialog.scaleControlValue.value, 10) > scaleControlMinValue) {
+      window.dialog.scaleControlValue.value = parseInt(window.dialog.scaleControlValue.value, 10) - scaleControlMinValue + `%`;
     } else {
-      scaleControlValue.value = scaleControlMinValue + `%`;
+      window.dialog.scaleControlValue.value = scaleControlMinValue + `%`;
     }
-    preview.style.transform = `scale(` + parseInt(scaleControlValue.value, 10) / 100 + `)`;
+    window.dialog.preview.style.transform = `scale(` + parseInt(window.dialog.scaleControlValue.value, 10) / 100 + `)`;
   });
 
   scaleControlBigger.addEventListener(`click`, function () {
-    if (parseInt(scaleControlValue.value, 10) === scaleControlMaxValue) {
-      scaleControlValue.value = scaleControlMaxValue + `%`;
+    if (parseInt(window.dialog.scaleControlValue.value, 10) === scaleControlMaxValue) {
+      window.dialog.scaleControlValue.value = scaleControlMaxValue + `%`;
     } else {
-      scaleControlValue.value = parseInt(scaleControlValue.value, 10) + scaleControlMinValue + `%`;
+      window.dialog.scaleControlValue.value = parseInt(window.dialog.scaleControlValue.value, 10) + scaleControlMinValue + `%`;
     }
-    preview.style.transform = `scale(` + parseInt(scaleControlValue.value, 10) / 100 + `)`;
+    window.dialog.preview.style.transform = `scale(` + parseInt(window.dialog.scaleControlValue.value, 10) / 100 + `)`;
   });
 
   window.dialog.hashtagInput.addEventListener(`change`, function () {
