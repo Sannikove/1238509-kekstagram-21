@@ -49,6 +49,7 @@
   const successHandler = function (data) {
     photos = data;
     updatePhotos(filterDefaultBtn);
+    filter.classList.remove(`img-filters--inactive`);
   };
 
   const errorHandler = function (errorMessage) {
@@ -63,7 +64,5 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  window.load(successHandler, errorHandler);
-  filter.classList.remove(`img-filters--inactive`);
-
+  window.backend.load(successHandler, errorHandler);
 })();
