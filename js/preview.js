@@ -5,6 +5,8 @@
   const bigPicture = bigPictureContainer.querySelector(`.big-picture__img`);
   const commentList = document.querySelector(`.social__comments`);
   const pictureCross = bigPictureContainer.querySelector(`#picture-cancel`);
+  const commentsLoad = document.querySelector(`.comments-loader`);
+  const DEFAULT_COMMENTS_LISTED = 5;
 
   const onPictureEscPress = function (evt) {
     window.main.isEscEvent(evt, closeBigPicture);
@@ -34,13 +36,32 @@
     bigPictureContainer.querySelector(`.comments-count`).textContent = photo.comments.length;
     bigPictureContainer.querySelector(`.social__caption`).textContent = photo.description;
     commentList.innerHTML = ``;
-    createCommentsList(photo.comments);
+
+    let counter = DEFAULT_COMMENTS_LISTED;
+    commentsLoad.classList.remove(`hidden`);
+    if (counter > photo.comments.length) {
+      counter = photo.comments.length;
+      commentsLoad.classList.add(`hidden`);
+    }
+    let firstComment = DEFAULT_COMMENTS_LISTED;
+    createCommentsList(photo.comments, 0, counter);
+
+    commentsLoad.addEventListener(`click`, function () {
+      counter = counter + DEFAULT_COMMENTS_LISTED > photo.comments.length ? photo.comments.length : counter + DEFAULT_COMMENTS_LISTED;
+      createCommentsList(photo.comments, firstComment, counter);
+      firstComment += DEFAULT_COMMENTS_LISTED;
+
+      let newList = document.querySelectorAll(`.social__comment`).length;
+      if (newList === photo.comments.length) {
+        commentsLoad.classList.add(`hidden`);
+      }
+    });
 
     openBigPicture();
   };
 
-  const createCommentsList = function (comments) {
-    for (let i = 0; i < comments.length; i++) {
+  const createCommentsList = function (comments, firstElement, counter) {
+    for (let i = firstElement; i < counter; i++) {
       let commentItem = document.createElement(`li`);
       commentItem.classList.add(`social__comment`);
       let avatarPicture = document.createElement(`img`);
@@ -57,6 +78,5 @@
       commentItem.appendChild(commentText);
     }
   };
-  document.querySelector(`.social__comment-count`).classList.add(`hidden`);
-  document.querySelector(`.comments-loader`).classList.add(`hidden`);
+
 })();
