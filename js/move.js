@@ -28,7 +28,7 @@
 
       window.form.pinSlider.style.left = newCoords + `px`;
       window.form.effectLevelDepth.style.width = newCoords + `px`;
-      let effectValue = Math.floor(newCoords / window.form.MAX_PIN_VALUE * window.form.sliderLenght);
+      let effectValue = Math.floor(newCoords / window.form.MAX_PIN_VALUE * window.form.SLIDER_LENGTH);
       window.form.sliderInput.setAttribute(`value`, effectValue);
       window.form.getLevelEffect();
     };

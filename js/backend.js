@@ -1,11 +1,11 @@
 'use strict';
 (function () {
+  const TIMEOUT_IN_MS = 10000;
   const POST_URL = `https://21.javascript.pages.academy/kekstagram`;
   const GET_URL = `https://21.javascript.pages.academy/kekstagram/data`;
   const StatusCode = {
     OK: 200
   };
-  const TIMEOUT_IN_MS = 10000;
 
   const getXhr = function (method, URL, data, onLoad, onError) {
     const xhr = new XMLHttpRequest();
@@ -31,17 +31,17 @@
     xhr.send(data);
   };
 
-  const send = function (data, onLoad, onError) {
+  const onContentSend = function (data, onLoad, onError) {
     getXhr(`POST`, POST_URL, data, onLoad, onError);
   };
 
-  const load = function (onLoad, onError) {
+  const onContentLoad = function (onLoad, onError) {
     getXhr(`GET`, GET_URL, null, onLoad, onError);
   };
 
   window.backend = {
-    send,
-    load
+    onContentSend,
+    onContentLoad
   };
 })();
 

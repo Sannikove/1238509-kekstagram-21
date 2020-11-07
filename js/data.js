@@ -1,13 +1,13 @@
 'use strict';
 
 (function () {
+  const MAX_RANDOM_PHOTO_COUNT = 10;
   let photos = [];
   const filter = document.querySelector(`.img-filters`);
   const filterButtons = filter.querySelectorAll(`.img-filters__button`);
-  const filterDefaultBtn = filter.querySelector(`#filter-default`);
-  const filterRandomBtn = filter.querySelector(`#filter-random`);
-  const filterDiscussedBtn = filter.querySelector(`#filter-discussed`);
-  const MAX_RANDOM_PHOTO_COUNT = 10;
+  const filterDefaultButton = filter.querySelector(`#filter-default`);
+  const filterRandomButton = filter.querySelector(`#filter-random`);
+  const filterDiscussedButton = filter.querySelector(`#filter-discussed`);
 
 
   for (let i = 0; i < filterButtons.length; i++) {
@@ -25,7 +25,7 @@
   }
 
   const updatePhotos = function (btn) {
-    if (btn === filterRandomBtn) {
+    if (btn === filterRandomButton) {
       let randomPhotos = [];
       let permutation = window.main.getRandomPermutation(photos.length);
       let temp = photos.slice();
@@ -34,7 +34,7 @@
       }
       return window.render(randomPhotos, MAX_RANDOM_PHOTO_COUNT);
 
-    } else if (btn === filterDiscussedBtn) {
+    } else if (btn === filterDiscussedButton) {
       let temp = photos.slice();
       let discussedPhotos = temp.sort(function (a, b) {
         return b.comments > a.comments ? 1 : -1;
@@ -46,13 +46,13 @@
     return window.render(defaultPhotos, defaultPhotos.length);
   };
 
-  const successHandler = function (data) {
+  const onSuccess = function (data) {
     photos = data;
-    updatePhotos(filterDefaultBtn);
+    updatePhotos(filterDefaultButton);
     filter.classList.remove(`img-filters--inactive`);
   };
 
-  const errorHandler = function (errorMessage) {
+  const onError= function (errorMessage) {
     let node = document.createElement(`div`);
     node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: black;`;
     node.style.position = `absolute`;
@@ -64,5 +64,5 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  window.backend.load(successHandler, errorHandler);
+  window.backend.onContentLoad(onSuccess, onError);
 })();

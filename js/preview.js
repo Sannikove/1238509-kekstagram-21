@@ -1,12 +1,15 @@
 'use strict';
 
 (function () {
+  const DEFAULT_COMMENTS_LISTED = 5;
+  const FIRST_COMMENT_INDEX = 0;
+  const AVATAR_SIZE = 35;
   const bigPictureContainer = document.querySelector(`.big-picture`);
   const bigPicture = bigPictureContainer.querySelector(`.big-picture__img`);
   const commentList = document.querySelector(`.social__comments`);
   const pictureCross = bigPictureContainer.querySelector(`#picture-cancel`);
   const commentsLoad = document.querySelector(`.comments-loader`);
-  const DEFAULT_COMMENTS_LISTED = 5;
+
 
   const onPictureEscPress = function (evt) {
     window.main.isEscEvent(evt, closeBigPicture);
@@ -44,7 +47,7 @@
       commentsLoad.classList.add(`hidden`);
     }
     let firstComment = DEFAULT_COMMENTS_LISTED;
-    createCommentsList(photo.comments, 0, counter);
+    createCommentsList(photo.comments, FIRST_COMMENT_INDEX, counter);
 
     commentsLoad.addEventListener(`click`, function () {
       counter = counter + DEFAULT_COMMENTS_LISTED > photo.comments.length ? photo.comments.length : counter + DEFAULT_COMMENTS_LISTED;
@@ -68,8 +71,8 @@
       avatarPicture.classList.add(`social__picture`);
       avatarPicture.src = comments[i].avatar;
       avatarPicture.alt = comments[i].name;
-      avatarPicture.width = 35;
-      avatarPicture.height = 35;
+      avatarPicture.width = AVATAR_SIZE;
+      avatarPicture.height = AVATAR_SIZE;
       let commentText = document.createElement(`p`);
       commentText.classList.add(`social__text`);
       commentText.textContent = comments[i].message;
