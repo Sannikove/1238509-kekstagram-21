@@ -13,7 +13,7 @@
     return arr[rand];
   };
 
-  const getRandomPermutation = (n) => {
+  const getRandomPermutation = function (n) {
     let arr = Array.from(Array(n).keys());
 
     for (let i = (n - 1); i > 0; i--) {
