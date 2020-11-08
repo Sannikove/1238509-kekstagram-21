@@ -20,7 +20,6 @@
   const effectLevelDepth = document.querySelector(`.effect-level__depth`);
   const successTemplate = document.querySelector(`#success`).content.querySelector(`section`);
   const errorTemplate = document.querySelector(`#error`).content.querySelector(`section`);
-  // const uploadControl = document.querySelector(`.img-upload__label`);
 
   window.dialog.levelBar.classList.add(`hidden`);
 
@@ -65,7 +64,6 @@
     window.backend.onContentSend(new FormData(formUpload), function () {
       window.dialog.closePopup();
       window.message.createMessage(successTemplate);
-      // uploadControl.classList.add(`hidden`);
     }, function () {
       window.dialog.closePopup();
       window.message.createMessage(errorTemplate);
