@@ -2,7 +2,6 @@
 
 (function () {
   const MAX_RANDOM_PHOTO_COUNT = 10;
-  const DEBOUNCE_INTERVAL = 500;
   let photos = [];
   const filter = document.querySelector(`.img-filters`);
   const filterButtons = filter.querySelectorAll(`.img-filters__button`);
@@ -12,20 +11,13 @@
 
 
   for (let i = 0; i < filterButtons.length; i++) {
-    let lastTimeout;
     filterButtons[i].addEventListener(`click`, function () {
       filterButtons[i].classList.add(`img-filters__button--active`);
-      if (lastTimeout) {
-        window.clearTimeout(lastTimeout);
-      }
-      lastTimeout = window.setTimeout(function () {
-        updatePhotos(filterButtons[i]);
-      }, DEBOUNCE_INTERVAL);
+      window.debounce(updatePhotos, filterButtons[i]);
 
       for (let j = 0; j < filterButtons.length; j++) {
         if (j !== i) {
           filterButtons[j].classList.remove(`img-filters__button--active`);
-
         }
       }
     });
