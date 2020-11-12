@@ -9,6 +9,7 @@
   const commentList = document.querySelector(`.social__comments`);
   const pictureCross = bigPictureContainer.querySelector(`#picture-cancel`);
   const commentsLoad = document.querySelector(`.comments-loader`);
+  const commentsCount = bigPictureContainer.querySelector(`.social__comment-count`);
 
 
   const onPictureEscPress = function (evt) {
@@ -36,7 +37,6 @@
   window.preview = function (photo) {
     bigPicture.querySelector(`img`).src = photo.url;
     bigPictureContainer.querySelector(`.likes-count`).textContent = photo.likes;
-    bigPictureContainer.querySelector(`.comments-count`).textContent = photo.comments.length;
     bigPictureContainer.querySelector(`.social__caption`).textContent = photo.description;
     commentList.innerHTML = ``;
 
@@ -58,7 +58,9 @@
       if (newList === photo.comments.length) {
         commentsLoad.classList.add(`hidden`);
       }
+      getCommentsCount(newList, photo.comments.length);
     });
+    getCommentsCount(counter, photo.comments.length);
 
     openBigPicture();
   };
@@ -80,6 +82,10 @@
       commentItem.appendChild(avatarPicture);
       commentItem.appendChild(commentText);
     }
+  };
+
+  const getCommentsCount = function (count, total) {
+    commentsCount.textContent = count + ` из ` + total + ` комментариев`;
   };
 
 })();

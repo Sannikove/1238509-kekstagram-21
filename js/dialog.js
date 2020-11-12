@@ -21,7 +21,7 @@
     hashtagInput.value = ``;
     commentInput.value = ``;
     scaleControlValue.value = scaleControlDefault;
-    };
+  };
 
   const onPopupEscPress = function (evt) {
     if (document.activeElement !== commentInput && document.activeElement !== hashtagInput) {
