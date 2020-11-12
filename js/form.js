@@ -71,7 +71,7 @@
     evt.preventDefault();
   });
 
-  window.dialog.scaleControlValue.value = window.dialog.scaleControlDefault;
+  window.dialog.scaleControlValue.setAttribute(`value`, window.dialog.scaleControlDefault);
 
   scaleControlSmaller.addEventListener(`click`, function () {
     if (parseInt(window.dialog.scaleControlValue.value, RADIX) > SCALE_CONTROL_MIN_VALUE) {
